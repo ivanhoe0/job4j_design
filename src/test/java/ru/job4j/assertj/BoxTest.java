@@ -11,6 +11,7 @@ class BoxTest {
         String name = box.whatsThis();
         assertThat(name).isEqualTo("Sphere");
     }
+
     @Test
     void isThisCube() {
         Box box = new Box(8, 6);
@@ -51,13 +52,13 @@ class BoxTest {
 
     @Test
     void whenDoesNotExist() {
-        Box box = new Box(2,10);
+        Box box = new Box(2, 10);
         assertThat(box.isExist()).isFalse();
     }
 
     @Test
     void whenEdge0ThenDoNotExist() {
-        Box box = new Box(0,0);
+        Box box = new Box(0, 0);
         assertThat(box.isExist()).isFalse();
     }
 
@@ -70,7 +71,7 @@ class BoxTest {
 
     @Test
     void whenSphereWithRadius5() {
-        Box box = new Box(0,5);
+        Box box = new Box(0, 5);
         double area = box.getArea();
         assertThat(area).isCloseTo(314.159, withPrecision(0.001));
     }
