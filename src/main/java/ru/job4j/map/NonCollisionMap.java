@@ -92,22 +92,19 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     }
 
     private void expand() {
-        var newCapacity = capacity * 2;
-        MapEntry<K, V>[] newTable = new MapEntry[newCapacity];
+        capacity *= 2;
+        MapEntry<K, V>[] newTable = new MapEntry[capacity];
         for (var entry : table) {
             if (entry == null) {
                 continue;
             }
-            int hash = hash(Objects.hashCode(entry.key));
-            int index = hash & (newCapacity - 1);
+            int index = hash(Objects.hashCode(entry.key)) & (capacity - 1);
             var result = newTable[index] == null;
             if (result) {
                 newTable[index] = new MapEntry<>(entry.key, entry.value);
             }
         }
-
         table = newTable;
-        capacity = newCapacity;
     }
 
     private static class MapEntry<K, V> {
