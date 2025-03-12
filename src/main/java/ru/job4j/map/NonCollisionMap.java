@@ -15,8 +15,10 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         if (count + 1 > capacity * LOAD_FACTOR) {
             expand();
         }
-        var result = putValue(key, value, table);
+        int index = indexByKey(key);
+        var result = table[index] == null;
         if (result) {
+            table[index] = new MapEntry<>(key, value);
             count++;
             modCount++;
         }
@@ -25,23 +27,16 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
 
     @Override
     public V get(K key) {
-        var hashCode = Objects.hashCode(key);
-        var index = indexFor(hash(hashCode));
+        var index = indexByKey(key);
         MapEntry<K, V> result = table[index];
-        var notEmpty = result != null && result.hashCode == hashCode
-                && Objects.equals(result.key, key);
-        return notEmpty ? result.value : null;
+        return findByKey(key) ? result.value : null;
     }
 
     @Override
     public boolean remove(K key) {
-        var hashCode = Objects.hashCode(key);
-        var index = indexFor(hash(hashCode));
-        MapEntry<K, V> m = table[index];
-        var result = m != null;
-        if (result
-                && m.hashCode == hashCode
-                && Objects.equals(m.key, key)) {
+        int index = indexByKey(key);
+        boolean result = findByKey(key);
+        if (result) {
             table[index] = null;
             count--;
             modCount++;
@@ -83,26 +78,34 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         return hash & (capacity - 1);
     }
 
-    private boolean putValue(K key, V value, MapEntry<K, V>[] array) {
+    private int indexByKey(K key) {
         int hash = hash(Objects.hashCode(key));
-        int size = array.length;
-        int index = hash & (size - 1);
-        var result = array[index] == null;
-        if (result) {
-            array[index] = new MapEntry<>(key, value);
-        }
-        return result;
+        return indexFor(hash);
+    }
+
+    private boolean findByKey(K key) {
+        var hashCode = Objects.hashCode(key);
+        var index = indexByKey(key);
+        MapEntry<K, V> result = table[index];
+        return result != null && result.hashCode == hashCode
+                && Objects.equals(result.key, key);
     }
 
     private void expand() {
         var newCapacity = capacity * 2;
         MapEntry<K, V>[] newTable = new MapEntry[newCapacity];
-        Iterator<K> iterator = iterator();
-        K key;
-        while (iterator.hasNext()) {
-            key = iterator.next();
-            putValue(key, get(key), newTable);
+        for (var entry : table) {
+            if (entry == null) {
+                continue;
+            }
+            int hash = hash(Objects.hashCode(entry.key));
+            int index = hash & (newCapacity - 1);
+            var result = newTable[index] == null;
+            if (result) {
+                newTable[index] = new MapEntry<>(entry.key, entry.value);
+            }
         }
+
         table = newTable;
         capacity = newCapacity;
     }
