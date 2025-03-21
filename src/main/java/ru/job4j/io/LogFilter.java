@@ -17,9 +17,15 @@ public class LogFilter {
 
     public List<String> filter() {
         List<String> result = new ArrayList<>();
+        String line = "";
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-           result = reader.lines().filter(s -> s.contains(" " + 404 + " "))
-                    .collect(Collectors.toList());
+           while ((line = reader.readLine()) != null) {
+               String[] lines = line.split(" ");
+               if (lines[lines.length - 2].equals("" + 404)) {
+                   result.add(line);
+               }
+           }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
