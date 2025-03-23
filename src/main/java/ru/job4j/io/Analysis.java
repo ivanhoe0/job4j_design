@@ -9,11 +9,11 @@ public class Analysis {
         PrintWriter writer = new PrintWriter(new FileOutputStream(target))
         ) {
            while ((line = reader.readLine()) != null) {
-               if (line.startsWith(400 + "") || line.startsWith(500 + "")) {
+               if (line.startsWith("400") || line.startsWith("500")) {
                    writer.print(line.split(" ")[1] + ";");
                    do {
                        line = reader.readLine();
-                   } while (line.startsWith(400 + "") || line.startsWith(500 + ""));
+                   } while (line.startsWith("400") || line.startsWith("500"));
                    writer.println(line.split(" ")[1] + ";");
                }
            }
