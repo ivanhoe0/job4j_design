@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Department flag = "true" title = "Отдел продаж">
+    <Division title = "Отдел продаж г.Москва"/>
+    <employees>
+        <employee>employee1</employee>
+        <employee>employee2</employee>
+    </employees>
+
+</Department>
