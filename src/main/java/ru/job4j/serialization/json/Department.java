@@ -3,6 +3,7 @@ package ru.job4j.serialization.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import jakarta.xml.bind.annotation.*;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 @XmlRootElement(name = "Department")
@@ -30,6 +31,26 @@ public class Department {
         this.employees = employees;
     }
 
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Division getDivision() {
+        return division;
+    }
+
+    public String[] getEmployees() {
+        return employees;
+    }
+
     @Override
     public String toString() {
         return "Department{"
@@ -47,6 +68,7 @@ public class Department {
         System.out.println(gson.toJson(department));
         Department department2 = gson.fromJson(gson.toJson(department), Department.class);
         System.out.println(department2);
-
+        JSONObject jsonObject = new JSONObject(department);
+        System.out.println(jsonObject);
     }
 }

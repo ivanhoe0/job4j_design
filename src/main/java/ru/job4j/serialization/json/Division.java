@@ -10,6 +10,10 @@ public class Division {
 
     public Division() { }
 
+    public String getTitle() {
+        return title;
+    }
+
     public Division(String title) {
         this.title = title;
     }
