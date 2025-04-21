@@ -8,6 +8,7 @@ public class SlidingWindowExample {
     public static int[] findMaxSubSequence(int[] array) {
         int currSum = 0;
         int leftIndex = 0;
+        int rightIndex = 0;
         class MaxSumArray {
             int start;
             int end;
@@ -21,7 +22,7 @@ public class SlidingWindowExample {
         }
 
         MaxSumArray maxSumArray = null;
-        for (int rightIndex = 0; rightIndex < array.length; rightIndex++) {
+        for (; rightIndex < array.length; rightIndex++) {
             currSum += array[rightIndex];
             if (maxSumArray == null || currSum > maxSumArray.maxSum) {
                 maxSumArray = new MaxSumArray(leftIndex, rightIndex, currSum);
@@ -38,8 +39,8 @@ public class SlidingWindowExample {
         int[] array3 = {-1, 4, 8, -10, 18, 2, -17, 19};
         int[] array2 = {25, -10, 14, -29, 1, 4};
         int[] array = {11, -12, 1, 25, -17};
-        System.out.println(Arrays.toString(findMaxSubSequence(array)));
-        System.out.println(Arrays.toString(findMaxSubSequence(array2)));
+//        System.out.println(Arrays.toString(findMaxSubSequence(array)));
+//        System.out.println(Arrays.toString(findMaxSubSequence(array2)));
         System.out.println(Arrays.toString(findMaxSubSequence(array3)));
     }
 }

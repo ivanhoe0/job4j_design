@@ -25,4 +25,11 @@ class SlidingWindowExampleTest {
         int[] expected = {0, 25, -17, 25};
         assertThat(SlidingWindowExample.findMaxSubSequence(array)).isEqualTo(expected);
     }
+
+    @Test
+    void whenAllNegative() {
+        int[] array = {-11, -12, -25, -7, -17};
+        int[] expected = {-7};
+        assertThat(SlidingWindowExample.findMaxSubSequence(array)).isEqualTo(expected);
+    }
 }
