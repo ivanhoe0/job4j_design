@@ -34,15 +34,13 @@ or replace function tax_before()
 	returns trigger as 
 $$
 	BEGIN
-		update products
-		set price = price + price * 0.14
-		where id = NEW.id;
+		NEW.price = NEW.price * 1.14;
 		return NEW;
 	END;
 $$
 LANGUAGE 'plpgsql';
 
-create trigger add_tax_before
+create or replace trigger add_tax_before
 	before insert
 	on products
 	for each row
