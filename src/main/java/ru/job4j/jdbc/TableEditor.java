@@ -1,7 +1,5 @@
 package ru.job4j.jdbc;
 
-import javax.xml.transform.Source;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
@@ -31,58 +29,38 @@ public class TableEditor implements AutoCloseable {
     }
 
     public void createTable(String tableName) {
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format(
                     "CREATE TABLE IF NOT EXISTS %s(%s);", tableName, "id SERIAL PRIMARY KEY"
             );
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            makeQuery(sql);
     }
 
     public void dropTable(String tableName) {
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format(
                     "DROP TABLE IF EXISTS %s;", tableName
             );
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            makeQuery(sql);
     }
 
     public void addColumn(String tableName, String columnName, String type) {
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format(
                     "ALTER TABLE IF EXISTS %s ADD %s %s;", tableName, columnName, type
             );
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        makeQuery(sql);
     }
 
     public void dropColumn(String tableName, String columnName) {
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format(
                     "ALTER TABLE IF EXISTS %s DROP COLUMN IF EXISTS %s;", tableName, columnName
             );
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        makeQuery(sql);
     }
 
     public void renameColumn(String tableName, String columnName, String newColumnName) {
-        try (Statement statement = connection.createStatement()) {
             String sql = String.format(
                     "ALTER TABLE IF EXISTS %s RENAME COLUMN %s TO %s;", tableName, columnName, newColumnName
             );
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        makeQuery(sql);
     }
 
     public String getTableScheme(String tableName) throws Exception {
@@ -104,6 +82,14 @@ public class TableEditor implements AutoCloseable {
         return buffer.toString();
     }
 
+    private void makeQuery(String sql) {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void close() throws Exception {
         if (connection != null) {
@@ -120,7 +106,9 @@ public class TableEditor implements AutoCloseable {
         tableEditor.createTable("example");
         System.out.println(tableEditor.getTableScheme("example"));
         tableEditor.addColumn("example", "name", "text");
-        tableEditor.addColumn("example", "sur_name", "text");
+        tableEditor.addColumn("example", "surname", "text");
+        System.out.println(tableEditor.getTableScheme("example"));
+        tableEditor.renameColumn("example", "surname", "second_name");
         System.out.println(tableEditor.getTableScheme("example"));
         tableEditor.dropColumn("example", "name");
         System.out.println(tableEditor.getTableScheme("example"));
