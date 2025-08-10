@@ -8,10 +8,10 @@ import static org.assertj.core.api.Assertions.*;
 class SmallParkingTest {
     @Test
     void whenThereIsNoPlaceInTruckParkingButThereIsPlaceInLightParking() {
-        Parking parking = new SmallParking();
-        Car truck1 = new Truck();
-        Car truck2 = new Truck();
-        Car truck3 = new Truck();
+        Parking parking = new SmallParking(4, 3);
+        Car truck1 = new Truck(2);
+        Car truck2 = new Truck(2);
+        Car truck3 = new Truck(3);
         parking.allocateCar(truck1);
         parking.allocateCar(truck2);
         assertThat(parking.allocateCar(truck3)).isTrue();
@@ -19,9 +19,9 @@ class SmallParkingTest {
 
     @Test
     void whenThereIsNoPlaceForLightCar() {
-        Parking parking = new SmallParking();
-        Car truck1 = new Truck();
-        Car truck2 = new Truck();
+        Parking parking = new SmallParking(5, 2);
+        Car truck1 = new Truck(2);
+        Car truck2 = new Truck(2);
         Car lightCar1 = new LightCar();
         Car lightCar2 = new LightCar();
         Car lightCar3 = new LightCar();
