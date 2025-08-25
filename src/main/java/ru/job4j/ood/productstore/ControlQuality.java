@@ -1,5 +1,6 @@
 package ru.job4j.ood.productstore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControlQuality {
@@ -15,5 +16,13 @@ public class ControlQuality {
                 break;
             }
         }
+    }
+
+    public void restore() {
+        var foods = new ArrayList<Food>();
+        stores.forEach(
+                store -> foods.addAll(store.moveAllToList())
+        );
+        foods.forEach(this::allocateFood);
     }
 }

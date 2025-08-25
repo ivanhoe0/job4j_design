@@ -19,4 +19,10 @@ public abstract class AbstractStore implements Store {
         return foodStore.get(index);
     }
 
+    @Override
+    public List<Food> moveAllToList() {
+        var result = new ArrayList<Food>(foodStore);
+        foodStore.clear();
+        return result;
+    }
 }
