@@ -7,7 +7,7 @@ public class TreeAVLMap<T extends Comparable<T>, V> {
     private Node root;
 
     public boolean put(T key, V value) {
-        // TODO реализуйте метод
+        // TODO реализуйте метод fsfeq
         return false;
     }
 
