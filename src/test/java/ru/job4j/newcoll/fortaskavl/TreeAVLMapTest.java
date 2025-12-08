@@ -1,6 +1,12 @@
 package ru.job4j.newcoll.fortaskavl;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Stream;
+
 import static org.assertj.core.api.Assertions.*;
 
 class TreeAVLMapTest {
@@ -85,5 +91,25 @@ class TreeAVLMapTest {
         tree.put(7, "77");
         assertThat(tree.get(5)).isEqualTo("55");
         assertThat(tree.get(0)).isNull();
+    }
+
+    @Test
+    void whenAddThenDeleteThenOk() {
+        TreeAVLMap<String, Integer> tree = new TreeAVLMap<>();
+        tree.put("1", 1);
+        tree.put("2", 2);
+        tree.put("3", 3);
+        tree.put("4", 4);
+        tree.put("5", 5);
+        tree.put("6", 6);
+        assertThat(tree.keySet()).hasSize(6)
+                .containsExactly("1", "2", "3", "4", "5", "6");
+        assertThat(tree.values()).hasSize(6)
+                .containsExactly(1, 2, 3, 4, 5, 6);
+        assertThat(tree.remove("three")).isFalse();
+        assertThat(tree.remove("3")).isTrue();
+        assertThat(tree.keySet()).hasSize(5);
+        assertThat(tree.values()).hasSize(5)
+                .containsExactly(1, 2, 4, 5, 6);
     }
 }
