@@ -32,7 +32,8 @@ public class BankMaxLoadTime {
                 currCount--;
             }
         }
-        System.out.println("Test");
+        System.out.println("Test1");
+        System.out.println("Test2");
         return new int[]{maxLoadStartTime, maxLoadEndTime};
     }
 
